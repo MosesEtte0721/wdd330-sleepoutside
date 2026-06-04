@@ -11,39 +11,54 @@ export default  class Product {
     async init() {
         // fetch product data based on productId and store it in this.product
         // use the findProductById method from ProductData to get the product details
-        // this.product = await this.dataSource.findProductById(this.productId);
+        this.product = await this.dataSource.findProductById(this.productId);
+
+        console.log("hello",this.product);
+        
+        this.renderProductDetails();
+
         document.getElementById('addToCart')
         .addEventListener('click', this.addToCart.bind(this));
     }
 
-    addProductToCart() {
+    addToCart() {
         // get cart items from local storage, or initialize to empty array if it doesn't exist
         let cartItems = getLocalStorage("so-cart") || [];
         cartItems.push(this.product);
+        let checkDuplicates = cartItems.find(item => item.Id === this.product.Id);
         setLocalStorage("so-cart", cartItems);
     }
 
     renderProductDetails() {
         // Implementation for rendering product details
         productDetailsTemplate(this.product);
-
-
-        
+    }
 
 }
+
+function productDetailsTemplate(products) {
+  const container = document.getElementById("product-detail");
+
+  container.innerHTML = products.map(product => `
+  
+    <section class="product-card">
+
+        <a href="/product_pages/index.html?product=${product.Id}">
+
+            <img src="${product.Image}" alt="${product.NameWithoutBrand}" />
+
+            <h3>${product.Brand?.Name || "No Brand"}</h3>
+
+            <h2>${product.NameWithoutBrand}</h2>
+
+            <p class="product-card__price">
+            Price: ${product.FinalPrice}
+            </p>
+
+        </a>
+
+        </section>
+    `).join("");
+
 }
-function productDetailsTemplate(product) {
-            document.querySelector('h2').textContent = product.Brand.Name;
-            document.querySelector('h3').textContent = product.NameWithoutBrand;
-
-            const productImage = document.getElementById('productImage');
-            productImage.src = product.Image;
-            productImage.alt = product.NameWithoutBrand;
-
-            document.getElementById('productPrice').textContent = product.FinalPrice;
-            document.getElementById('productColor').textContent = product.Colors[0].ColorName;
-            document.getElementById('productDesc').innerHTML = product.DescriptionHtmlSimple;
-
-            document.getElementById('addToCart').dataset.id = product.Id;
-        }
     

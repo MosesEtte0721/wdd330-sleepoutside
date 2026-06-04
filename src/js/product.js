@@ -1,11 +1,16 @@
 import { getParam } from "./utils.mjs";
-import product from "./productDetails.mjs";
+import Product from "./productDetails.mjs";
 import ProductData from "./ProductData.mjs";
 
-const dataSource = new ProductData("tents");
-const productId = getParam("product"); 
 
-const product = new product(productId, dataSource);
+
+const dataSource = new ProductData("tents");
+
+const productId = getParam("product"); 
+console.log("Product ID from URL:", productId)
+
+const product = new Product(productId, dataSource);
+
 product.init();
 
 

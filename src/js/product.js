@@ -1,17 +1,30 @@
-import { getParam } from "./utils.mjs";
 import Product from "./productDetails.mjs";
-import ProductData from "./ProductData.mjs";
+
+const template = new Product();
+
+
+template.init();
+    
 
 
 
-const dataSource = new ProductData("tents");
 
-const productId = getParam("product"); 
-console.log("Product ID from URL:", productId)
 
-const product = new Product(productId, dataSource);
 
-product.init();
+
+
+
+
+
+// const productList = new Product();
+// productList.init();
+
+
+
+
+// const product = new Product(productId, dataSource);
+
+// product.init();
 
 
 

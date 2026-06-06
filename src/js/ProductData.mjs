@@ -22,4 +22,6 @@ export default class ProductData {
     // return products.find((item) => item.Id === id);
     return products.find((item) => String(item.Id).toLowerCase() === String(id).toLowerCase());
   }
+
+  
 }

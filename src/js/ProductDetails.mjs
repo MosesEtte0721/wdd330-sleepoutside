@@ -81,8 +81,10 @@ function productListTemplate(products) {
       <img src="${product.Image}" alt="${product.NameWithoutBrand}" />
 
       <div class="product-info">
-        <h1>${product.NameWithoutBrand}</h1>
-        <h3>${product.Brand?.Name || "No Brand"}</h3>
+        <hgroup>
+          <h1>${product.NameWithoutBrand}</h1>
+          <h3>${product.Brand?.Name || "No Brand"}</h3>
+        </hgroup>
 
         <p class="price">
           Price: ${product.FinalPrice}

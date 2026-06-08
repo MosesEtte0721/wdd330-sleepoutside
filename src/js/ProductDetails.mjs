@@ -34,6 +34,10 @@ export default  class Product {
     }
 
     addToCart() {
+      if (!this.product) {
+        console.error("No product data available to add to cart.");
+        return;
+      }
         // get cart items from local storage, or initialize to empty array if it doesn't exist
         let cartItems = getLocalStorage("so-cart") || [];
         cartItems.push(this.product);

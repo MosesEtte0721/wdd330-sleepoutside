@@ -1,9 +1,13 @@
 import Product from "./productDetails.mjs";
+import { loadHeaderFooter } from "./utils.mjs";
+loadHeaderFooter();
 
 const template = new Product();
 
 
 template.init();
+
+
     
 
 

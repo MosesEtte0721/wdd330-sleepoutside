@@ -28,16 +28,31 @@ export function getParam(param) {
   return url.get(param);
 }
 
-export function renderListWithTemplate (templateFn, parentElement, list, position = "afterBegin", clear = false) {
+export function renderListWithTemplate (templateFn, parentElement, list, position = "afterbegin", clear = false) {
   if (clear) {
     parentElement.innerHTML = "";
   }
 
   list.forEach((item) => {
     const element = templateFn(item);
-    parentElement.insertAdjacentElement(position, element);
+    parentElement.insertAdjacentHTML(position, element);
   });
   
 }
 
 
+export async function loadTemplate(path) {
+  const res = await fetch(path);
+  const text = await res.text();
+  return text;
+}
+
+
+
+export async function loadHeaderFooter() {
+  const header = await loadTemplate("/partials/header.html");
+  const footer = await loadTemplate("/partials/footer.html");
+
+  document.querySelector("header").innerHTML = header;
+  document.querySelector("footer").innerHTML = footer;
+}

@@ -37,7 +37,32 @@ export function renderListWithTemplate (templateFn, parentElement, list, positio
     const element = templateFn(item);
     parentElement.insertAdjacentElement(position, element);
   });
-  
+
+}
+
+export function renderWithTemplate (templateFn, parentElement, data, callback) {
+  parentElement.insertAdjacentElement("afterBegin", templateFn(data));
+  if (callback) {
+    callback(data);
+  }
+}
+
+export async function loadTemplate(templateId) {
+  const res = await fetch(templateId);
+  const templateText = await res.text();
+  return templateText;
+
+}
+
+export async function loadHeaderFooter() {
+  const headerTemplate = await loadTemplate("../partials/header.html");
+  const headerElement = document.querySelector("#main-header");
+
+  const footerTemplate = await loadTemplate("../partials/footer.html");  
+  const footerElement = document.querySelector("#main-footer");
+
+  renderWithTemplate(() => headerTemplate, headerElement);
+  renderWithTemplate(() => footerTemplate, footerElement);
 }
 
 

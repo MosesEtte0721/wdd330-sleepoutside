@@ -56,6 +56,8 @@ import ProductData from "./ProductData.mjs";
 
 // }
 
+// import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+
 export default class ProductDetails {
 
   constructor(productId, dataSource) {
@@ -65,49 +67,45 @@ export default class ProductDetails {
   }
 
   async init() {
-    // get the product id from the query string and store it in this.productId
-    this.productId = getParam("product");
     console.log(`This is current Id of this product: ${this.productId}`);
-    // use the datasource to get the details for the current product. findProductById will return a promise! use await or .then() to process it
     this.product = await this.dataSource.findProductById(this.productId);
-    console.log(this.product);
-    // the product details are needed before rendering the HTML
+    // console.log(this.product);
     this.renderProductDetails();
-    // once the HTML is rendered, add a listener to the Add to Cart button
-    // Notice the .bind(this). This callback will not work if the bind(this) is missing. Review the readings from this week on "this" to understand why.
     document
       .getElementById("addToCart")
       .addEventListener("click", this.addProductToCart.bind(this));
   }
 
   addProductToCart() {
+    if (!this.product) return;
     const cartItems = getLocalStorage("so-cart") || [];
     cartItems.push(this.product);
     setLocalStorage("so-cart", cartItems);
   }
 
   renderProductDetails() {
-  const container = document.getElementById("product-detail");
-  container.innerHTML = productDetailsTemplate(this.product); // ← inject it
-}
+    if (!this.product) {
+      document.getElementById("product-detail").innerHTML = "<p>Product not found.</p>";
+      return;
+    }
+    const container = document.getElementById("product-detail");
+    container.innerHTML = productDetailsTemplate(this.product);
+  }
 }
 
 
-function productListTemplate(products) {
+function productListTemplate(products, category) { // 
   const product_list = document.getElementById("product-list");
-  if (!product_list) return; 
-  
+  if (!product_list) return;
+
   product_list.innerHTML = products.map(product => `
     <section class="product-card"> 
-      <a href="/product_pages/index.html?product=${product.Id}">
-        <img src="${product.Image || product.Images?.PrimaryMedium}" alt="${product.NameWithoutBrand}" />
+      <a href="/product_pages/index.html?product=${product.Id}&category=${category}">
+        <img src="${product.Images?.PrimaryMedium || product.Image}" alt="${product.NameWithoutBrand}" />
         <h3>${product.Brand?.Name || "No Brand"}</h3>
         <h2>${product.NameWithoutBrand}</h2>
-        <p class="product-card__price">
-          Price: ${product.FinalPrice}
-        </p>
+        <p class="product-card__price">Price: ${product.FinalPrice}</p>
       </a>
-    <button id="addToCart">Add to Cart</button>
     </section>
   `).join("");
 }
@@ -118,20 +116,20 @@ function productListTemplate(products) {
   return `
     <section class="product-detail">
 
-      <img src="${product.Image || product.Images?.PrimaryMedium}" alt="${product.NameWithoutBrand}" />
+      <img src="${product?.Images?.PrimaryMedium ||product.Image}"alt="${product?.NameWithoutBrand ||"Cannot find the product name"}"/>
 
       <div class="product-info">
         <hgroup>
-          <h1>${product.NameWithoutBrand}</h1>
-          <h3>${product.Brand?.Name || "No Brand"}</h3>
+          <h1>${product?.NameWithoutBrand || "Cannot find the product name"}</h1>
+          <h3>${product?.Brand?.Name || "No Brand"}</h3>
         </hgroup>
 
         <p class="price">
-          Price: ${product.FinalPrice}
+          Price: ${product?.FinalPrice || product?.FinalPrice}
         </p>
 
         <p class="description">
-          ${product.DescriptionHtmlSimple || "No description available"}
+          ${product.DescriptionHtmlSimple  || "No description available"}
         </p>
 
         <button id="addToCart">Add to Cart</button>

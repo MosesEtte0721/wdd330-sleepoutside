@@ -17,7 +17,7 @@ function checkoutTemplate(cartItems) {
       <ul class="checkout-list">
         ${cartItems.map(item => `
           <li class="checkout-item divider">
-            <img src="${item.Image}" alt="${item.Name}" />
+            <img src="${item.Images?.PrimarySmall || item.Image}" alt="${item.Name}" />
             <div class="checkout-item__info">
               <h3>${item.Name}</h3>
               <p class="checkout-item__color">${item.Colors?.[0]?.ColorName || ""}</p>

@@ -4,11 +4,15 @@ loadHeaderFooter();
 
 
 
-
-
 function checkoutTemplate(cartItems) {
-  const total = cartItems.reduce((sum, item) => sum + item.FinalPrice, 0);
-  
+  const sub_total = cartItems.reduce((sum, item) => sum + item.FinalPrice,0);
+  const total_items = cartItems.length;
+
+  let total_qty = total_items;
+  let shipping = total_items > 0 ? 10 + (total_items - 1) * 2:0;
+  let tax = sub_total * 0.06
+  let total = sub_total + tax + shipping
+    
   return `
     <section class="checkout">
       
@@ -27,41 +31,76 @@ function checkoutTemplate(cartItems) {
         `).join("")}
       </ul>
 
-      <div class="checkout-total">
-        <p>Total: <strong>$${total.toFixed(2)}</strong></p>
+      <div class="total_qty">
+        <p> <strong>Total Items</strong>:${total_qty} </p>
       </div>
-
+      <div class="checkout-total">
+        <p><strong>Sub Total:$ </strong> $${sub_total.toFixed(2)}</strong></p>
+      </div>
+      <div class="tax">
+        <p> <strong> Tax</strong>:$${tax.toFixed(2) } </p>
+      </div>
+      
+      <div class="shipping">
+        <p><strong>Shipping</strong>:$${shipping.toFixed(2) }</p>
+      </div>
+      <div class="grand-total">
+          <p><strong>Total</strong>:$${total.toFixed(2)}</p>
+      </div>
+     
+   
       <form class="checkout-form">
-        <h2>Shipping Information</h2>
+        <fieldset>
+        <legend> shipping and Payment Informatioin </legend>
+        <h2>Shipping Address:</h2> <br>
 
-        <label for="name">Full Name</label>
-        <input type="text" id="name" placeholder="John Doe" required />
+        <label for="fname">First Name
+          <input type="text" id="fname" placeholder="Ekong" required />
+        </label>
+        
 
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="john@email.com" required />
+        <label for="lname">Last Name
+          <input type="text" id="lname" placeholder="Ntem" required />
+        </label>
+        
 
-        <label for="address">Address</label>
-        <input type="text" id="address" placeholder="123 Main St" required />
+        <label for="address">Address
+          <input type="text" id="address" placeholder="123 Main St" required />
+        </label>
+        
 
-        <label for="city">City</label>
-        <input type="text" id="city" placeholder="City" required />
+        <label for="city">City
+          <input type="text" id="city" placeholder="City" required />
+        </label>
+        
 
-        <label for="zip">Zip Code</label>
-        <input type="text" id="zip" placeholder="12345" required />
+        <label for="zip">Zip Code
+          <input type="number" id="zip" placeholder="12345" required />
+        </label>
+          
+        <br><br><br>
 
-        <h2>Payment Information</h2>
+        <h2>Payment: </h2><br>
 
-        <label for="card">Card Number</label>
-        <input type="text" id="card" placeholder="1234 5678 9012 3456" required />
+        <label for="card"> Card Number
+          <input type="number" id="card" placeholder="1234 5678 9012 3456" required />
+        </label>
+        
 
-        <label for="expiry">Expiry Date</label>
-        <input type="text" id="expiry" placeholder="MM/YY" required />
+        <label for="expiry">Expiry Date
+          <input type="text" id="expiry" placeholder="MM/YY" required />
+        </label>
+        
 
-        <label for="cvv">CVV</label>
-        <input type="text" id="cvv" placeholder="123" required />
-
+        <label for="cvv">CVV
+          <input type="number" id="cvv" placeholder="123" required />
+        </label>
+        
+          <br></br>
         <button type="submit" id="placeOrder">Place Order</button>
+        </fieldset>
       </form>
+
 
     </section>
   `;

@@ -1,5 +1,5 @@
 import { getLocalStorage, setLocalStorage, getParam } from "./utils.mjs";
-import ProductData from "./ExternalServices.mjs";
+import ExternalServices from "./ExternalServices.mjs";
 
 
 // let data = new ProductData("tents");

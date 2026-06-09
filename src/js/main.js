@@ -1,11 +1,11 @@
-import ProductData from "./ExternalServices.mjs";
+import ExternalServices from "./ExternalServices.mjs";
 import ProductList from "./productList.mjs";
 import {loadHeaderFooter, getParam} from "./utils.mjs";
 
 loadHeaderFooter();
 
 
-const product_data = new ProductData();
+const product_data = new ExternalServices();
 const category = getParam("category")
 
 

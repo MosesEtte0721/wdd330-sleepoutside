@@ -10,7 +10,7 @@ export default class CheckoutProcess {
     
     constructor(key, outputSelector) {
     this.key = key;
-    this.outputSelector = outputSelector;
+    this.formElemen = outputSelector;
     this.list = [];
     this.totalItems = 0;
     this.shipping = 0;
@@ -27,8 +27,8 @@ export default class CheckoutProcess {
 
     calculateItemSummary() {
     // calculate and display the total amount of the items in the cart, and the number of items.
-    const summary = document.querySelector( this.outputSelector + " .sub_total");
-    const itemTotal = document.querySelector(this.outputSelector + " .totalItems" );
+    const summary = document.querySelector( this.formElemen + " .sub_total");
+    const itemTotal = document.querySelector(this.formElemen + " .totalItems" );
     itemTotal.innerText = `<p><strong>Total Items</strong>:${this.list.length} </p>`
     // calculate the total of all the items in the cart
     const cost = this.list.map((item) => item.FinalPrice);
@@ -51,9 +51,9 @@ export default class CheckoutProcess {
 
  displayOrderTotals() {
     //  display calculated items in the order summary page
-    const tax = document.querySelector(`${this.outputSelector} .tax`);
-    const shipping = document.querySelector(`${this.outputSelector} .shipping`);
-    const orderTotal = document.querySelector(`${this.outputSelector} .grandTotal`);
+    const tax = document.querySelector(`${this.formElemen} .tax`);
+    const shipping = document.querySelector(`${this.formElemen} .shipping`);
+    const orderTotal = document.querySelector(`${this.formElemen} .grandTotal`);
 
     tax.innerText = `<p> <strong> Tax</strong>:$${this.tax.toFixed(2) } </p>`;
     shipping.innerText = `<p><strong>Shipping</strong>:$${this.shipping.toFixed(2) }</p>`;
@@ -131,6 +131,8 @@ function packageItems(items){
     });
     return simpleData;
 }
+
+
 
 
 

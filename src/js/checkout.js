@@ -1,18 +1,11 @@
 
 import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
-import {CheckProcess } from "./processCheckout.mjs"
+import {CheckoutProcess } from "./processCheckout.mjs"
 loadHeaderFooter();
 
 
 
 function checkoutTemplate(cartItems) {
-  // const sub_total = cartItems.reduce((sum, item) => sum + item.FinalPrice,0);
-  // const total_items = cartItems.length;
-
-  // let total_qty = total_items;
-  // let shipping = total_items > 0 ? 10 + (total_items - 1) * 2:0;
-  // let tax = sub_total * 0.06
-  // let total = sub_total + tax + shipping
     
   return `
     <section class="checkout">
@@ -35,19 +28,11 @@ function checkoutTemplate(cartItems) {
       <div class="totalItems">
         
       </div>
-      <div class="sub_total">
-        <p><strong>Sub Total:$ </strong> $${sub_total.toFixed(2)}</strong></p>
-      </div>
-      <div class="tax">
-        
-      </div>
+      <div class="sub_total"></div>
+      <div class="tax"></div>
       
-      <div class="shipping">
-        
-      </div>
-      <div class="grand-total">
-          
-      </div>
+      <div class="shipping"></div>
+      <div class="grand-total"></div>
      
    
       <form class="checkout-form">
@@ -98,7 +83,7 @@ function checkoutTemplate(cartItems) {
         </label>
         
           <br></br>
-        <button type="submit" id="placeOrder">Place Order</button>
+        <button type="submit" id="checkoutSubmit">Place Order</button>
         </fieldset>
       </form>
 
@@ -131,5 +116,17 @@ function renderCheckout() {
 }
 
 renderCheckout();
+
+const order = new CheckoutProcess("so-cart", ".checkout-summary");
+order.init();
+
+document.querySelector("#zip").addEventListener("blur", order.calculateOrderTotal.bind(order));
+
+// listening for click on the button
+document.querySelector("#checkoutSubmit").addEventListener("click", (e) => {
+  e.preventDefault();
+
+  order.checkout();
+});
 
 

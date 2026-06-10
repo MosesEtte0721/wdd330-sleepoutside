@@ -19,7 +19,7 @@ export default class CheckoutProcess {
   }
 
     init() {
-        console.log(`Total Items: ${this.total_qty}`)
+        console.log(`Total Items: ${this.list.length}`)
         this.sub_total();
         this.tax_shipping_total() 
 
@@ -39,7 +39,7 @@ export default class CheckoutProcess {
   calculateOrderTotal() {
     // calculate the shipping and tax amounts. Then use them to along with the cart total to figure out the order total
     this.tax = (this.totalItems * .06);
-    this.shipping = this.list.length > 0 ? 10 + (total_qty-1) * 2 : 0;
+    this.shipping = this.list.length > 0 ? 10 + (this.list.length-1) * 2 : 0;
     this.orderTotal = (
       parseFloat(this.totalItems) +
       parseFloat(this.tax) +
@@ -60,30 +60,30 @@ export default class CheckoutProcess {
     orderTotal.innerText = `<p><strong>Total</strong>:$${this.grandTotal.toFixed(2)}</p>`;
   }
 
-    sub_total() { // retreive items in from the cart and display the total cost of all items in there
-        const cartitems = getLocalStorage("so-cart") || [];
-        const sub_total = cartitems.reduce((acc, sum ) => acc + sum.FinalPrice,0)
-        console.log(sub_total);
-        return sub_total;
+    // sub_total() { // retreive items in from the cart and display the total cost of all items in there
+    //     const cartitems = getLocalStorage("so-cart") || [];
+    //     const sub_total = cartitems.reduce((acc, sum ) => acc + sum.FinalPrice,0)
+    //     console.log(sub_total);
+    //     return sub_total;
    
-    }
+    // }
 
-    tax_shipping_total() { //calculate tax, shipping cost, and the grand total
-        const tax = this.sub_total * 0.075
-        const shipping = this.list.length > 0 ? 10 + (this.list.length-1) * 2 : 0;
-        const total = this.sub_total + tax + shipping;
-        // console.log(`\nTax: $${tax.toFixed(2)}\n Shipping: $${shipping.toFixed(2)}\n Total:$${total.toFixed(2)}`)
+    // tax_shipping_total() { //calculate tax, shipping cost, and the grand total
+    //     const tax = this.sub_total * 0.075
+    //     const shipping = this.list.length > 0 ? 10 + (this.list.length-1) * 2 : 0;
+    //     const total = this.sub_total + tax + shipping;
+    //     // console.log(`\nTax: $${tax.toFixed(2)}\n Shipping: $${shipping.toFixed(2)}\n Total:$${total.toFixed(2)}`)
 
 
-    }
+    // }
 
-    cartItems() {
-        const cart = getLocalStorage("so-cart") || [];
-        return cart.map(item => ({
-            ...item,
-            quantity: item.quantity
-        }))
-    }
+    // cartItems() {
+    //     const cart = getLocalStorage("so-cart") || [];
+    //     return cart.map(item => ({
+    //         ...item,
+    //         quantity: item.quantity
+    //     }))
+    // }
 
 
     async checkout() {
@@ -112,7 +112,7 @@ export default class CheckoutProcess {
 function formDataToJson(formElement) {
     const form_data = new FormData(formElement);
     let convertedToData = {};
-    form_data.map((key, value) => {
+    form_data.forEach((key, value) => {
         convertedToData[key] = value;
     })
 

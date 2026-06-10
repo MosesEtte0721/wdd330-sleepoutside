@@ -6,7 +6,7 @@ loadHeaderFooter();
 
 
 const product_data = new ExternalServices();
-const category = getParam("category")
+const category = getParam("category");
 
 
 const elem = document.getElementById("product-list");

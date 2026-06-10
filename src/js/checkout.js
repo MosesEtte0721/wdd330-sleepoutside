@@ -1,17 +1,18 @@
 
 import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
+import {CheckProcess } from "./processCheckout.mjs"
 loadHeaderFooter();
 
 
 
 function checkoutTemplate(cartItems) {
-  const sub_total = cartItems.reduce((sum, item) => sum + item.FinalPrice,0);
-  const total_items = cartItems.length;
+  // const sub_total = cartItems.reduce((sum, item) => sum + item.FinalPrice,0);
+  // const total_items = cartItems.length;
 
-  let total_qty = total_items;
-  let shipping = total_items > 0 ? 10 + (total_items - 1) * 2:0;
-  let tax = sub_total * 0.06
-  let total = sub_total + tax + shipping
+  // let total_qty = total_items;
+  // let shipping = total_items > 0 ? 10 + (total_items - 1) * 2:0;
+  // let tax = sub_total * 0.06
+  // let total = sub_total + tax + shipping
     
   return `
     <section class="checkout">
@@ -31,21 +32,21 @@ function checkoutTemplate(cartItems) {
         `).join("")}
       </ul>
 
-      <div class="total_qty">
-        <p> <strong>Total Items</strong>:${total_qty} </p>
+      <div class="totalItems">
+        
       </div>
-      <div class="checkout-total">
+      <div class="sub_total">
         <p><strong>Sub Total:$ </strong> $${sub_total.toFixed(2)}</strong></p>
       </div>
       <div class="tax">
-        <p> <strong> Tax</strong>:$${tax.toFixed(2) } </p>
+        
       </div>
       
       <div class="shipping">
-        <p><strong>Shipping</strong>:$${shipping.toFixed(2) }</p>
+        
       </div>
       <div class="grand-total">
-          <p><strong>Total</strong>:$${total.toFixed(2)}</p>
+          
       </div>
      
    

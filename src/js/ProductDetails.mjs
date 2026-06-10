@@ -64,6 +64,7 @@ export default class ProductDetails {
     this.productId = productId;
     this.product = {};
     this.dataSource = dataSource;
+    this.cartItems = getLocalStorage("so-cart") || [];
   }
 
   async init() {
@@ -78,9 +79,45 @@ export default class ProductDetails {
 
   addProductToCart() {
     if (!this.product) return;
-    const cartItems = getLocalStorage("so-cart") || [];
-    cartItems.push(this.product);
-    setLocalStorage("so-cart", cartItems);
+  
+    this.increase_qty();
+    // cartItems.push(this.product);
+    setLocalStorage("so-cart", this.cartItems);
+  }
+
+  increase_qty() {
+    
+    const existingItem = this.cartItems.find(item => item.Id === this.productId)
+    if (existingItem) {
+      existingItem.Quantity += 1
+    } else {
+      this.cartItems.push({
+        ...this.product,
+        Quantity:1
+      })
+      setLocalStorage("so-cart", this.cartItems)
+    }
+  }
+
+  decrease_qty() {
+    
+const existingItem = cartItems.find(
+    item => item.id === this.productId
+  );
+
+  if (existingItem) {
+      if (existingItem.quantity > 1) {
+        //  reduce quantity
+        existingItem.quantity -= 1;
+      } else {
+        // remove item if it reaches 0
+        const updatedCart = this.cartItems.filter( item => item.id !== this.productId);
+
+        setLocalStorage("so-cart", updatedCart);
+        return;
+      }
+
+    }
   }
 
   renderProductDetails() {

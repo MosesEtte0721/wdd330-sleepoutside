@@ -15,6 +15,7 @@ export default class ProductList {
     const html = list.map(product => productCardTemplate(product)).join("");
     this.listElement.insertAdjacentHTML("afterbegin", html);g
   }
+  
 }
 
 function productCardTemplate(product) {

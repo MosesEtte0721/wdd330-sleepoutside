@@ -30,45 +30,34 @@ function checkoutTemplate(cartItems) {
         <fieldset>
           <legend>Shipping and Payment Information</legend>
           
-          <h2>Shipping Address:</h2> <br>
-
+          <h2>Shipping Address:</h2>
           <label for="fname">First Name
             <input type="text" id="fname" name="fname" placeholder="Ekong" required />
           </label>
-          
           <label for="lname">Last Name
             <input type="text" id="lname" name="lname" placeholder="Ntem" required />
           </label>
-          
           <label for="address">Address
             <input type="text" id="address" name="address" placeholder="123 Main St" required />
           </label>
-          
           <label for="city">City
             <input type="text" id="city" name="city" placeholder="City" required />
           </label>
-          
           <label for="zip">Zip Code
             <input type="number" id="zip" name="zip" placeholder="12345" required />
           </label>
-          
-          <br><br><br>
 
-          <h2>Payment: </h2><br>
-
-          <label for="card"> Card Number
-            <input type="text" id="card" name="card" placeholder="1234 5678 9012 3456" required />
+          <h2>Payment:</h2>
+          <label for="card">Card Number
+            <input type="number" id="card" name="card" placeholder="1234 5678 9012 3456" required />
           </label>
-          
           <label for="expiry">Expiry Date
             <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required />
           </label>
-          
           <label for="cvv">CVV
-            <input type="text" id="cvv" name="cvv" placeholder="123" required />
+            <input type="number" id="cvv" name="cvv" placeholder="123" required />
           </label>
           
-          <br><br>
           <button type="submit" id="checkoutSubmit">Place Order</button>
         </fieldset>
       </form>
@@ -94,23 +83,13 @@ const order = new CheckoutProcess("so-cart", ".checkout");
 order.init();
 
 // Zip blur for totals
-document.querySelector("#zip").addEventListener("blur", () => {
-  order.calculateOrderTotal();
-});
+document.querySelector("#zip")?.addEventListener("blur", order.calculateOrderTotal.bind(order));
 
-// Submit handler with validation
+// Form submit
 const form = document.getElementById("checkout-form");
-const submitBtn = document.getElementById("checkoutSubmit");
-
 if (form) {
-  form.addEventListener("submit", async (e) => {
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
-    
-    if (form.checkValidity()) {
-      await order.checkout();
-    } else {
-      form.reportValidity(); // Show browser validation messages
-      alert("Please fill in all required fields correctly.");
-    }
+    order.checkout();
   });
 }

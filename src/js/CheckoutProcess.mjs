@@ -24,9 +24,7 @@ export default class CheckoutProcess {
     const itemTotalEl = document.querySelector(`${this.outputSelector} .totalItems`);
     const subTotalEl = document.querySelector(`${this.outputSelector} .sub_total`);
 
-    if (itemTotalEl) {
-      itemTotalEl.innerHTML = `<p><strong>Total Items</strong>: ${this.list.length}</p>`;
-    }
+    if (itemTotalEl) itemTotalEl.innerHTML = `<p><strong>Total Items</strong>: ${this.list.length}</p>`;
 
     const cost = this.list.map(item => item.FinalPrice || 0);
     this.totalItems = cost.reduce((sum, price) => sum + price, 0);
@@ -61,6 +59,11 @@ export default class CheckoutProcess {
       return;
     }
 
+    if (!formElement.checkValidity()) {
+      formElement.reportValidity();
+      return;
+    }
+
     const order = this.formDataToJson(formElement);
     order.orderDate = new Date().toISOString();
     order.orderTotal = this.grandTotal;
@@ -70,13 +73,22 @@ export default class CheckoutProcess {
 
     try {
       const response = await services.checkout(order);
-      console.log("Order submitted:", response);
+      console.log("Order submitted successfully:", response);
+
+      // Happy Path: Clear cart and redirect to success
       localStorage.removeItem(this.key);
-      alert("Order placed successfully!");
-      window.location.href = "/index.html";
+      window.location.href = "/checkout/success.html";
+
     } catch (err) {
-      console.error("Checkout failed:", err);
-      alert("Checkout failed. Please try again.");
+      console.error("Checkout error:", err);
+
+      // Handle servicesError from ExternalServices
+      if (err.name === 'servicesError' && err.message) {
+        // For stretch goal, we'll use alertMessage later
+        alert(`Error: ${JSON.stringify(err.message, null, 2)}`);
+      } else {
+        alert("An error occurred during checkout. Please try again.");
+      }
     }
   }
 

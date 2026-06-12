@@ -7,25 +7,14 @@ function checkoutTemplate(cartItems) {
   return `
     <section class="checkout">
       <h2>Order Summary</h2>
-      <ul class="checkout-list">
-        ${cartItems.map(item => `
-          <li class="checkout-item divider">
-            <img src="${item.Images?.PrimarySmall || item.Image}" alt="${item.Name}" />
-            <div class="checkout-item__info">
-              <h3>${item.Name}</h3>
-              <p class="checkout-item__color">${item.Colors?.[0]?.ColorName || ""}</p>
-              <p class="checkout-item__price">$${item.FinalPrice}</p>
-            </div>
-          </li>
-        `).join("")}
-      </ul>
+    
 
       <div class="totalItems"></div>
       <div class="sub_total"></div>
       <div class="tax"></div>
       <div class="shipping"></div>
-      <div class="grand-total"></div>
-
+      <div class="grand-total">
+      </div>
       <form id="checkout-form" class="checkout" method="POST">
         <fieldset>
           <legend>Shipping and Payment Information</legend>

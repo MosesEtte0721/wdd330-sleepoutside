@@ -8,7 +8,13 @@
     "build": "vite build --emptyOutDir",
     "lint": "eslint *.js src/**/*.js",
     "format": "prettier --ignore-path ./.gitignore --write \"./**/*.{html,json,js,ts,css}\"",
-    "test": "jest"
+    "test": "jest",
+    "dev": "vite --host",
+    "docker:build": "docker build -t my-app .",
+    "docker:run": "docker rm -f my-container 2>nul || true && docker run --name my-container -p 5173:5173 -v %cd%:/app -v /app/node_modules my-app"
+
+    
+    
   },
   "author": "Shane Thompson",
   "license": "ISC",

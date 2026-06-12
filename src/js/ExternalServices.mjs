@@ -1,4 +1,5 @@
-const baseURL = import.meta.env.VITE_SERVER_URL || 'http://serverurl.com'; // fallback if needed
+const apiBaseURL = import.meta.env.VITE_SERVER_URL || "https://wdd330-backend.onrender.com/";
+const baseURL = apiBaseURL.endsWith("/") ? apiBaseURL : `${apiBaseURL}/`;
 
 function convertToJson(res) {
   return res.json().then(jsonResponse => {
